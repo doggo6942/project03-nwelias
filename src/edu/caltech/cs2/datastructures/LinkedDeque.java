@@ -86,15 +86,7 @@ public class LinkedDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
         if(head == null){
             return null;
         }
-//        Node oldHead = head; // current head
-//        Node newHead = head.getNext();// successor node
-//        newHead.setPrevious(null);// no predecessor
-//        oldHead.setNext(null);// this removes the current Node from the chain
-//        // and will soon be garbage collected
-//        head = newHead;
-//        size = size - 1;
-//        return oldHead.getData();
-        //new stuff
+
         Node oldHead = head;  // current head
         Node newHead = head.getNext(); // successor node
         if(newHead == null){
@@ -104,8 +96,6 @@ public class LinkedDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
             newHead.setPrevious(null);// no predecessor
         }
 
-        // oldHead.setNext(null);// this removes the current Node from the chain
-        // and will soon be garbage collected
 
         head = newHead;
         size = size - 1;
@@ -119,11 +109,7 @@ public class LinkedDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
         }
         Node oldTail = tail; // current tail
         Node newTail = tail.getPrevious();// successor node
-//        newTail.setNext(null);// no one behind the new tail
-//        oldTail.setPrevious(null);
-//        tail = newTail;
-//        return oldTail.getData();
-       //  no one behind the new tail
+
 
         // oldTail.setPrevious(null);
         if(newTail==null){

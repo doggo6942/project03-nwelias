@@ -9,7 +9,7 @@ import java.util.Iterator;
 public class ArrayDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
     private int size = 0;
     private int back = 0;
-    //private E first = 0;
+
     private static final int str = 10;
     private static final int growFactor = 2;
     private E[] elements;
@@ -17,42 +17,13 @@ public class ArrayDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
 
     public ArrayDeque(){
         this(str);
-//        this.elements = (E[]) new Object[10];
-//        this.size = 0;
-        //ArrayDeque<E> deque = new ArrayDeque<E>(10);
 
     }
     public ArrayDeque(int intialCapacity) {
 
         this.elements = (E[]) new Object[intialCapacity];
         this.size = 0;
-       // E[] newArray = (E[]) new Object[capacity] {
-//        }
-//        public void resize(){
-//               int start = first + 1;
-//               int end = back - 1;
-//               if(start > end) {
-//                   int sizeOfFront = elements.length - start;
-//                   int sizeofBack = size - sizeOfFront;
-//                   System.arraycopy(elements, start, newArray, 0, sizeOfFront);
-//                   System.arraycopy(elements, 0, newArray, sizeOfFront, sizeofBack);
-//               }
-//               else {
-//                   System.arraycopy(elements, start, newArray, 0, size);
-//               }
-//               first = newArray.length -1;
-//               back = size;
-//               elements = newArray;
-//
-//
-//               }
-//        }
-//
-//
-//    }
-//    public boolean isEmpty() {
-//        return this.size == 0;
-//    }
+
     }
 
 
@@ -80,23 +51,7 @@ public class ArrayDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
         size = size + 1;
     }
 
-//        Node prevFirst = first;
-//        first = new Node();
-//        first.e = e;
-//        first.next = prevFirst;
-//        first.prev = null;
-//        if(last==null){
-//            last = first;
-//        }
-//        n++
-//        }
-//
-//        elements[head= (head - 1) & (elements.length -1)] = e;
-//        //insert elelemnt to the first bit of the head, modify the head value at the same time
-//        elements.length -1  = e;
-//
-//
-//    }
+
 
     @Override
     public void addBack(E e) {
@@ -109,9 +64,7 @@ public class ArrayDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
             this.elements[size] = e;
         }
         else {
-//            for(int i = elements.length -1; i>=0; i--) {
-//                elements[i + 1] = elements[i];
-//            }
+
             this.elements[size] = e;
 
         }

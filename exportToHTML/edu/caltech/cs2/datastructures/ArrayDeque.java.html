@@ -1,0 +1,217 @@
+<html>
+<head>
+<title>ArrayDeque.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ArrayDeque.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">edu.caltech.cs2.datastructures</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">edu.caltech.cs2.interfaces.IDeque</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">edu.caltech.cs2.interfaces.IQueue</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">edu.caltech.cs2.interfaces.IStack</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.util.Iterator</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">ArrayDeque&lt;E&gt; </span><span class="s0">implements </span><span class="s1">IDeque&lt;E&gt;</span><span class="s0">, </span><span class="s1">IQueue&lt;E&gt;</span><span class="s0">, </span><span class="s1">IStack&lt;E&gt; {</span>
+    <span class="s0">private int </span><span class="s1">size = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">private int </span><span class="s1">back = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">E first = </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">E[] elements</span><span class="s0">;</span>
+
+
+    <span class="s0">public </span><span class="s1">ArrayDeque(){</span>
+        <span class="s0">this</span><span class="s1">.elements = (E[]) </span><span class="s0">new </span><span class="s1">Object[</span><span class="s2">10</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.size = </span><span class="s2">0</span><span class="s0">;</span>
+        <span class="s3">//ArrayDeque&lt;E&gt; deque = new ArrayDeque&lt;E&gt;(10);</span>
+
+    <span class="s1">}</span>
+    <span class="s0">public </span><span class="s1">ArrayDeque(</span><span class="s0">int </span><span class="s1">intialCapacity){</span>
+        <span class="s0">this</span><span class="s1">.elements = (E[]) </span><span class="s0">new </span><span class="s1">Object[</span><span class="s2">10</span><span class="s1">]</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.size = </span><span class="s2">0</span><span class="s0">;</span>
+       <span class="s1">E[] newArray = (E[]) </span><span class="s0">new </span><span class="s1">Object[capacity] {</span>
+        <span class="s1">}</span>
+        <span class="s0">public void </span><span class="s1">resize(){</span>
+               <span class="s0">int </span><span class="s1">start = first + </span><span class="s2">1</span><span class="s0">;</span>
+               <span class="s0">int </span><span class="s1">end = back - </span><span class="s2">1</span><span class="s0">;</span>
+               <span class="s0">if</span><span class="s1">(start &gt; end) {</span>
+                   <span class="s0">int </span><span class="s1">sizeOfFront = elements.length - start</span><span class="s0">;</span>
+                   <span class="s0">int </span><span class="s1">sizeofBack = size - sizeOfFront</span><span class="s0">;</span>
+                   <span class="s1">System.arraycopy(elements</span><span class="s0">, </span><span class="s1">start</span><span class="s0">, </span><span class="s1">newArray</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, </span><span class="s1">sizeOfFront)</span><span class="s0">;</span>
+                   <span class="s1">System.arraycopy(elements</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, </span><span class="s1">newArray</span><span class="s0">, </span><span class="s1">sizeOfFront</span><span class="s0">, </span><span class="s1">sizeofBack)</span><span class="s0">;</span>
+               <span class="s1">}</span>
+               <span class="s0">else </span><span class="s1">{</span>
+                   <span class="s1">System.arraycopy(elements</span><span class="s0">, </span><span class="s1">start</span><span class="s0">, </span><span class="s1">newArray</span><span class="s0">, </span><span class="s2">0</span><span class="s0">, </span><span class="s1">size)</span><span class="s0">;</span>
+               <span class="s1">}</span>
+               <span class="s1">first = newArray.length -</span><span class="s2">1</span><span class="s0">;</span>
+               <span class="s1">back = size</span><span class="s0">;</span>
+               <span class="s1">elements = newArray</span><span class="s0">;</span>
+
+
+               <span class="s1">}</span>
+        <span class="s1">}</span>
+
+
+    <span class="s1">}</span>
+    <span class="s0">public boolean </span><span class="s1">isEmpty() {</span>
+        <span class="s0">return this</span><span class="s1">.size == </span><span class="s2">0</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">addFront(E e) {</span>
+        <span class="s0">if </span><span class="s1">(size &gt;= elements.length) {</span>
+            <span class="s1">E[] newElements = (E[]) </span><span class="s0">new </span><span class="s1">Object[elements.length*</span><span class="s2">2</span><span class="s1">]</span><span class="s0">;</span>
+            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i&lt; elements.length</span><span class="s0">; </span><span class="s1">i++)</span>
+                <span class="s1">newElements[i+</span><span class="s2">1</span><span class="s1">] = elements[i]</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = elements.length -</span><span class="s2">1</span><span class="s0">; </span><span class="s1">i&gt;=</span><span class="s2">0</span><span class="s0">; </span><span class="s1">i--) {</span>
+                <span class="s1">elements[i + </span><span class="s2">1</span><span class="s1">] = elements[i]</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">elements[</span><span class="s2">0</span><span class="s1">] = e</span><span class="s0">;</span>
+            <span class="s1">size = size + </span><span class="s2">1</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+<span class="s3">//        Node prevFirst = first;</span>
+<span class="s3">//        first = new Node();</span>
+<span class="s3">//        first.e = e;</span>
+<span class="s3">//        first.next = prevFirst;</span>
+<span class="s3">//        first.prev = null;</span>
+<span class="s3">//        if(last==null){</span>
+<span class="s3">//            last = first;</span>
+<span class="s3">//        }</span>
+<span class="s3">//        n++</span>
+<span class="s3">//        }</span>
+<span class="s3">//</span>
+<span class="s3">//        elements[head= (head - 1) &amp; (elements.length -1)] = e;</span>
+<span class="s3">//        //insert elelemnt to the first bit of the head, modify the head value at the same time</span>
+<span class="s3">//        elements.length -1  = e;</span>
+<span class="s3">//</span>
+<span class="s3">//</span>
+<span class="s3">//    }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">addBack(E e) {</span>
+        <span class="s0">if </span><span class="s1">(size &gt;= elements.length) {</span>
+            <span class="s1">E[] newElements = (E[]) </span><span class="s0">new </span><span class="s1">Object[elements.length*</span><span class="s2">2</span><span class="s1">]</span><span class="s0">;</span>
+            <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i&lt; elements.length</span><span class="s0">; </span><span class="s1">i++)</span>
+                <span class="s1">newElements[i] = elements[i]</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">else </span><span class="s1">{</span>
+<span class="s3">//            for(int i = elements.length -1; i&gt;=0; i--) {</span>
+<span class="s3">//                elements[i + 1] = elements[i];</span>
+<span class="s3">//            }</span>
+            <span class="s1">elements[size] = e</span><span class="s0">;</span>
+            <span class="s1">size = size + </span><span class="s2">1</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E removeFront() {</span>
+        <span class="s0">if </span><span class="s1">(size == </span><span class="s2">0</span><span class="s1">) {</span>
+            <span class="s0">return null;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s0">int </span><span class="s1">i = </span><span class="s2">0</span><span class="s0">;</span>
+            <span class="s1">elements[i] = first</span><span class="s0">;</span>
+            <span class="s0">for </span><span class="s1">(i = elements.length - </span><span class="s2">1</span><span class="s0">; </span><span class="s1">i &gt;= </span><span class="s2">0</span><span class="s0">; </span><span class="s1">i--) {</span>
+                <span class="s1">elements[i - </span><span class="s2">1</span><span class="s1">] = elements[i]</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">size = size - </span><span class="s2">1</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">first</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E removeBack() {</span>
+        <span class="s0">if </span><span class="s1">(size == </span><span class="s2">0</span><span class="s1">) {</span>
+            <span class="s0">return null;</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s1">E last = elements[elements.length - </span><span class="s2">1</span><span class="s1">]</span><span class="s0">;</span>
+            <span class="s1">size = size - </span><span class="s2">1</span><span class="s0">;</span>
+            <span class="s0">return </span><span class="s1">last</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public boolean </span><span class="s1">enqueue(E e) {</span>
+        <span class="s1">addBack(e)</span><span class="s0">;</span>
+        <span class="s0">return true;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E dequeue() {</span>
+        <span class="s1">removeFront()</span><span class="s0">;</span>
+        <span class="s0">return null;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public boolean </span><span class="s1">push(E e) {</span>
+        <span class="s1">addFront(e)</span><span class="s0">;</span>
+        <span class="s0">return false;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E pop() {</span>
+        <span class="s1">removeFront()</span><span class="s0">;</span>
+        <span class="s0">return null;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E peekFront() {</span>
+        <span class="s0">return </span><span class="s1">elements[</span><span class="s2">0</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E peekBack() {</span>
+        <span class="s0">return </span><span class="s1">elements[elements.length-</span><span class="s2">1</span><span class="s1">]</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">E peek() {</span>
+        <span class="s0">return </span><span class="s1">peekBack()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Iterator&lt;E&gt; iterator() {</span>
+        <span class="s1">Iterator&lt;E&gt; iter = </span><span class="s0">new </span><span class="s1">Iterator&lt;E&gt;() {</span>
+            <span class="s0">private int </span><span class="s1">index = </span><span class="s2">0</span><span class="s0">;</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">public </span><span class="s1">E next() {</span>
+                <span class="s1">index += </span><span class="s2">1</span><span class="s0">;</span>
+                <span class="s0">return </span><span class="s1">elements[index]</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public boolean </span><span class="s1">hasNext() {</span>
+                <span class="s0">if </span><span class="s1">(index &lt; size) {</span>
+                    <span class="s0">return true;</span>
+                <span class="s1">}</span>
+                <span class="s0">return false;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">iter</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">size() {</span>
+        <span class="s0">return </span><span class="s1">size</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+
+</pre>
+</body>
+</html>
