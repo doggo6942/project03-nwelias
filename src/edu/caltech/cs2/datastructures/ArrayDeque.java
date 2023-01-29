@@ -7,70 +7,234 @@ import edu.caltech.cs2.interfaces.IStack;
 import java.util.Iterator;
 
 public class ArrayDeque<E> implements IDeque<E>, IQueue<E>, IStack<E> {
+    private int size = 0;
+    private int back = 0;
+    //private E first = 0;
+    private static final int str = 10;
+    private static final int growFactor = 2;
+    private E[] elements;
+
+
+    public ArrayDeque(){
+        this(str);
+//        this.elements = (E[]) new Object[10];
+//        this.size = 0;
+        //ArrayDeque<E> deque = new ArrayDeque<E>(10);
+
+    }
+    public ArrayDeque(int intialCapacity) {
+
+        this.elements = (E[]) new Object[intialCapacity];
+        this.size = 0;
+       // E[] newArray = (E[]) new Object[capacity] {
+//        }
+//        public void resize(){
+//               int start = first + 1;
+//               int end = back - 1;
+//               if(start > end) {
+//                   int sizeOfFront = elements.length - start;
+//                   int sizeofBack = size - sizeOfFront;
+//                   System.arraycopy(elements, start, newArray, 0, sizeOfFront);
+//                   System.arraycopy(elements, 0, newArray, sizeOfFront, sizeofBack);
+//               }
+//               else {
+//                   System.arraycopy(elements, start, newArray, 0, size);
+//               }
+//               first = newArray.length -1;
+//               back = size;
+//               elements = newArray;
+//
+//
+//               }
+//        }
+//
+//
+//    }
+//    public boolean isEmpty() {
+//        return this.size == 0;
+//    }
+    }
+
 
     @Override
     public void addFront(E e) {
+        if (size + 1> this.elements.length) {
+            E[] newElements = (E[]) new Object[this.elements.length*growFactor];
 
+            for(int i = 0; i < size; i++) {
+                newElements[i + 1] = this.elements[i];
+            }
+
+                this.elements = newElements;
+                this.elements[0] = e;
+
+        }
+        else {
+            for(int i = size-1; i >= 0; i--) {
+                this.elements[i+1] = this.elements[i];
+            }
+            this.elements[0] = e;
+
+        }
+
+        size = size + 1;
     }
+
+//        Node prevFirst = first;
+//        first = new Node();
+//        first.e = e;
+//        first.next = prevFirst;
+//        first.prev = null;
+//        if(last==null){
+//            last = first;
+//        }
+//        n++
+//        }
+//
+//        elements[head= (head - 1) & (elements.length -1)] = e;
+//        //insert elelemnt to the first bit of the head, modify the head value at the same time
+//        elements.length -1  = e;
+//
+//
+//    }
 
     @Override
     public void addBack(E e) {
+        if (size + 1 > this.elements.length) {
+            E[] newElements = (E[]) new Object[this.elements.length * growFactor];
+            for (int i = 0; i < this.elements.length; i++) {
+                newElements[i] = this.elements[i];
+            }
+            this.elements = newElements;
+            this.elements[size] = e;
+        }
+        else {
+//            for(int i = elements.length -1; i>=0; i--) {
+//                elements[i + 1] = elements[i];
+//            }
+            this.elements[size] = e;
+
+        }
+        size = size + 1;
 
     }
 
     @Override
     public E removeFront() {
-        return null;
+        if (size == 0) {
+            return null;
+        } else {
+            int i = 0;
+            E first = elements[i];
+            for (i = 0; i < elements.length - 1; i++) {
+                elements[i] = elements[i+1];
+
+            }
+            size = size - 1;
+            return first;
+        }
+
     }
 
     @Override
     public E removeBack() {
-        return null;
+        if (size == 0) {
+            return null;
+        } else {
+            E last = elements[size - 1];
+            //elements[elements.length- 1] = null;
+            size = size - 1;
+            return last;
+        }
     }
 
     @Override
     public boolean enqueue(E e) {
-        return false;
+        addFront(e);
+        return true;
     }
 
     @Override
     public E dequeue() {
-        return null;
+        return removeBack();
+
     }
 
     @Override
     public boolean push(E e) {
-        return false;
+        addBack(e);
+        return true;
     }
 
     @Override
     public E pop() {
-        return null;
+       return removeBack();
+
     }
 
     @Override
     public E peekFront() {
-        return null;
+        if(size==0){
+            return null;
+        }
+        return elements[0];
     }
 
     @Override
     public E peekBack() {
-        return null;
+        if(size==0){
+            return null;
+        }
+        return elements[size-1];
     }
 
     @Override
     public E peek() {
-        return null;
+        return peekBack();
     }
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        Iterator<E> iter = new Iterator<E>() {
+            private int index = 0;
+
+            @Override
+            public E next() {
+                index += 1;
+                return elements[index-1];
+            }
+            @Override
+            public boolean hasNext() {
+                if (index < size) {
+                    return true;
+                }
+                return false;
+            }
+        };
+        return iter;
     }
+
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
+
+    @Override
+    public String toString() {
+        if (this.size == 0) {
+            return "[]";
+        }
+
+        String result = "[";
+        for (int i = 0; i < this.size; i++) {
+            result += this.elements[i] + ", ";
+        }
+
+        result = result.substring(0, result.length() - 2);
+        return result + "]";
+    }
+
+
 }
 
