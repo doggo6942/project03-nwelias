@@ -2,20 +2,20 @@ package edu.caltech.cs2.project03;
 
 import edu.caltech.cs2.datastructures.CircularArrayFixedSizeQueue;
 import edu.caltech.cs2.interfaces.IFixedSizeQueue;
-import edu.caltech.cs2.interfaces.IQueue;
+
 
 import java.util.Random;
 
 
 public class CircularArrayFixedSizeQueueGuitarString {
-    private static final int samplingRate = 44100;
+    private static final int SAMPLINGRATE = 44100;
     private IFixedSizeQueue string;
-    private static final double edf = 0.996;
+    private static final double EDF = 0.996;
     private static Random rand;
     public CircularArrayFixedSizeQueueGuitarString(double frequency) {
         this.rand = new Random();
-        int capacity = (int) (samplingRate/frequency);
-        if(samplingRate%frequency != 0){
+        int capacity = (int) (SAMPLINGRATE/frequency);
+        if(SAMPLINGRATE%frequency != 0){
            capacity = capacity + 1;
         }
         this.string = (IFixedSizeQueue) new CircularArrayFixedSizeQueue(capacity);
@@ -41,7 +41,7 @@ public class CircularArrayFixedSizeQueueGuitarString {
     public void tic() {
         double first = (double) string.dequeue();
         double val = (first + sample())/2.0;
-        string.enqueue(val * edf);
+        string.enqueue(val * EDF);
     }
 
     public double sample() {

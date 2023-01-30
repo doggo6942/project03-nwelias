@@ -5,18 +5,12 @@ import edu.caltech.cs2.interfaces.IFixedSizeQueue;
 import java.util.Iterator;
 
 public class CircularArrayFixedSizeQueue<E> implements IFixedSizeQueue<E> {
-//    private E[] cir;
-//    private int size;
-//    private int front;
-//    private int rear;
-    //back = write
+
 private E[] elementz;
 
 private int size;
 private int frontIndex;
 
-//write starts at -1, backIndex = only incrmenets when add
-    //read starts at 0, increment by 1 when remove
     public CircularArrayFixedSizeQueue(int capacity) {
     this.elementz = (E[]) new Object[capacity];
     this.size= 0;      //prevent head from catching up with tail
@@ -27,16 +21,9 @@ private int frontIndex;
 
     @Override
     public boolean isFull() {
-
-        // size of buffer equal to capacity
-        //pointers are adjacent, subtracting yields 1
-        // say 10 spots, front is
-        //at 0, (size 10), back is at 9--> 9-0 + 1 =10
-
         if(size == elementz.length){
             return true;
         }
-        //size == capacity
         return false;
     }
 
@@ -48,13 +35,6 @@ private int frontIndex;
     @Override
     public boolean enqueue(E e) {
         if(isFull() == false){
-//            elementz[backIndex] = e;
-//            backIndex = (backIndex + 1) % elementz.length;
-            //back is -1 + 1 0
-           // int nextBackIndex = (backIndex + 1) % elementz.length;
-            //int nextBackIndex = backIndex + 1
-           // elementz[nextBackIndex % elementz.length] = e;
-            // mod to find slot in range
             elementz[(frontIndex + size)  % elementz.length] = e;
             size = size + 1;
             return true;
@@ -73,12 +53,6 @@ private int frontIndex;
             //get value at current front index, then increment to erase/set for new frontIndex
             E FrontIndexValue = elementz[frontIndex];
             frontIndex = (frontIndex + 1)  % elementz.length;
-//            if(frontIndex + 1 == elementz.length){
-//                frontIndex = 0;
-//            }
-//            else {
-//                frontIndex = frontIndex + 1;
-//            }
             size = size -1;
             return FrontIndexValue;
 
@@ -88,10 +62,7 @@ private int frontIndex;
     @Override
     public E peek() {
         if(size == 0){
-            //   backIndex == -1 && frontIndex == 0)
             return null;
-//        if(backIndex == -1 && frontIndex == 0) {
-//            return null;
         }
         else{
             //get value at current front index, but does not increment to erase/set for new frontIndex
@@ -110,17 +81,6 @@ private int frontIndex;
         if(isFull() == false) {
             elementz[(frontIndex + size)  % elementz.length] = e;
             size = size + 1;
-//
-
-//            elementz[backIndex] = e;
-//            backIndex = (backIndex + 1) % elementz.length;
-         //   elementz[++backIndex % elementz.length] = e;  //pre-increment bfr insert
-           // to shift or not to shift backindex pointer?/
-//            int nextBackIndex = backIndex + 1;
-//            elementz[nextBackIndex % elementz.length] = e; // mod to find slot in range
-//            backIndex = backIndex + 1;
-
-            //elementz[
         }
     }
 
@@ -175,11 +135,6 @@ private int frontIndex;
             index++;
         }
 
-//            if(elementz[index % elementz.length]!= null)
-//            {
-//                result += elementz[index].toString()+ ", ";
-//            }
-//            index++;
         result = result.substring(0, result.length() - 2);
         return result + "]";
 
